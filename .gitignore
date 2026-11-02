@@ -130,7 +130,6 @@ dmypy.json
 
 staticfiles/
 
-occurrences.csv
 
 infra/terraform/.terraform
 infra/terraform/terraform.tfstate

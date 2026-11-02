@@ -1,13 +1,20 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.conf import settings
 from chronoguess.core.models import Occurrence
 
 class Command(BaseCommand):
-    help = "Closes the specified poll for voting"
+    help = "Loads occurrences from a CSV file"
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "--file",
+            default=f"{settings.BASE_DIR}/occurrences.csv",
+            help="Path to the occurrences CSV file (defaults to <BASE_DIR>/occurrences.csv)",
+        )
 
     def handle(self, *args, **options):
         print("Loading occurrences from CSV...")
-        with open(f"{settings.BASE_DIR}/occurrences.csv", 'r') as file:
+        with open(options["file"], 'r', encoding='utf-8') as file:
             for line in file.readlines()[1:]:
                 parts = line.strip().split(',')
                 if len(parts) != 5:
